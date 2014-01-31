@@ -1,0 +1,12 @@
+# Logfile created on 2014-01-09 15:38:19 -0500 by logger.rb/44203
+I, [2014-01-09T15:38:19.513780 #45334]  INFO -- : 0:  mini_portile (0.5.2) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@greenbuttonparser/specifications/mini_portile-0.5.2.gemspec
+I, [2014-01-09T15:40:00.570773 #45334]  INFO -- : 0:  nokogiri (1.6.1) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@greenbuttonparser/specifications/nokogiri-1.6.1.gemspec
+I, [2014-01-09T15:40:00.571547 #45334]  INFO -- : 0:  bundler (1.5.1) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@global/specifications/bundler-1.5.1.gemspec
+I, [2014-01-09T15:41:58.166571 #61990]  INFO -- : 0:  diff-lcs (1.2.5) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@greenbuttonparser/specifications/diff-lcs-1.2.5.gemspec
+I, [2014-01-09T15:41:58.167194 #61990]  INFO -- : 0:  mini_portile (0.5.2) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@greenbuttonparser/specifications/mini_portile-0.5.2.gemspec
+I, [2014-01-09T15:41:58.167635 #61990]  INFO -- : 0:  nokogiri (1.6.1) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@greenbuttonparser/specifications/nokogiri-1.6.1.gemspec
+I, [2014-01-09T15:41:59.700018 #61990]  INFO -- : 0:  rspec-core (2.14.7) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@greenbuttonparser/specifications/rspec-core-2.14.7.gemspec
+I, [2014-01-09T15:42:00.390164 #61990]  INFO -- : 0:  rspec-expectations (2.14.4) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@greenbuttonparser/specifications/rspec-expectations-2.14.4.gemspec
+I, [2014-01-09T15:42:01.630865 #61990]  INFO -- : 0:  rspec-mocks (2.14.4) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@greenbuttonparser/specifications/rspec-mocks-2.14.4.gemspec
+I, [2014-01-09T15:42:02.172032 #61990]  INFO -- : 0:  rspec (2.14.1) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@greenbuttonparser/specifications/rspec-2.14.1.gemspec
+I, [2014-01-09T15:42:02.172483 #61990]  INFO -- : 0:  bundler (1.5.1) from /Users/Charles_Personal/.rvm/gems/ruby-2.1.0@global/specifications/bundler-1.5.1.gemspec
