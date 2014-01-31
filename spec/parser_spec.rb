@@ -36,6 +36,24 @@ describe GreenButton::Parser do
 			parsed_data = load_and_parse_greenbutton
 			expect(parsed_data.usage_points.first.self_href).to eq "RetailCustomer/9b6c7063/UsagePoint/01"
 		end
+
+		it "knows its related hrefs" do
+			parsed_data = load_and_parse_greenbutton
+			expect(parsed_data.usage_points.first.related_hrefs.count).to eq 3
+		end
+	end
+
+	describe GreenButton::Parser, '#parse_related_hrefs' do
+		it "parses local time parameters" do
+			parser = new_parser_with_data
+			xml = parser.doc
+			point = parser.parsed_usage_point(xml.xpath('//UsagePoint').first)
+			parser.parse_related(xml, point)
+			expect(point.local_time_parameters.dst_end_rule).to eq "B40E2000"
+			expect(point.local_time_parameters.dst_offset).to eq "3600"
+			expect(point.local_time_parameters.dst_start_rule).to eq "360E2000"
+			expect(point.local_time_parameters.tz_offset).to eq "-28800"
+		end
 	end
 end
 
