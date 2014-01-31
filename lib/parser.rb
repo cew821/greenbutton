@@ -52,8 +52,6 @@ module GreenButton
 				time.dst_start_rule = xml.xpath('content/LocalTimeParameters/dstStartRule').text
 				time.tz_offset = xml.xpath('content/LocalTimeParameters/tzOffset').text
 				point.local_time_parameters = time
-				# puts point.local_time_parameters.dst_end_rule
-				# point.local_time = Local
 			end
 		end
 	end
