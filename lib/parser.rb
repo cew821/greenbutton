@@ -2,6 +2,8 @@ module GreenButton
 	require 'nokogiri'
 	require 'open-uri'
 
+	require_relative 'greenbutton/objectifier.rb'
+
 	class Parser
 		attr_accessor :doc
 

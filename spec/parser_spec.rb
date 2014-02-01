@@ -29,7 +29,7 @@ describe GreenButton::Parser do
 
 		it "knows its service category" do
 			parsed_data = load_and_parse_greenbutton
-			expect(parsed_data.usage_points.first.service_kind).to eq "0"
+			expect(parsed_data.usage_points.first.service_kind).to eq :electricity
 		end
 
 		it "knows its ID" do
