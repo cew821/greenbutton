@@ -32,6 +32,11 @@ describe GreenButton::Parser do
 			expect(parsed_data.usage_points.first.service_kind).to eq "0"
 		end
 
+		it "knows its ID" do
+			parsed_data = load_and_parse_greenbutton
+			expect(parsed_data.usage_points.first.id).to eq "urn:uuid:4217A3D3-60E0-46CD-A5AF-2A2D091F397E"
+		end
+
 		it "knows its own href" do
 			parsed_data = load_and_parse_greenbutton
 			expect(parsed_data.usage_points.first.self_href).to eq "RetailCustomer/9b6c7063/UsagePoint/01"
@@ -53,6 +58,14 @@ describe GreenButton::Parser do
 			expect(point.local_time_parameters.dst_offset).to eq "3600"
 			expect(point.local_time_parameters.dst_start_rule).to eq "360E2000"
 			expect(point.local_time_parameters.tz_offset).to eq "-28800"
+		end
+
+		it "parses the electric power usage summary" do
+			parser = new_parser_with_data
+			xml = parser.doc
+			point = parser.parsed_usage_point(xml.xpath('//UsagePoint').first)
+			parser.parse_related(xml, point)
+			expect(point.electric_power_usage_summary.billing_period.start).to eq "2011-11-01z07:00:00"
 		end
 
 		# it "parses meter readings within interval blocks" do 
