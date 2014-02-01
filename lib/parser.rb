@@ -25,7 +25,10 @@ module GreenButton
 
 		def parsed_usage_point(usage_point_xml)
 			point = UsagePoint.new
-			rules = { service_kind: 'ServiceCategory/kind', self_href: "../../link[@rel='self']/@href", id: '../../id' }
+			rules = [
+				Rule.new(:service_kind, "ServiceCategory/kind", :ServiceKind),
+				Rule.new(:self_href, "../../link[@rel='self']/@href", :string),
+				Rule.new(:id, "../../id", :string)]
 			generic_parser(usage_point_xml, rules, point)
 			parse_related(usage_point_xml, point)
 			point
@@ -48,21 +51,26 @@ module GreenButton
 
 		def parse_electric_power_usage_summary(xml, point)
 			usage_summary = ElectricPowerUsageSummary.new
-			
+
 			point.electric_power_usage_summary = usage_summary
 		end
 
 		def parse_local_time_parameters(xml, point)
 			time = LocalTimeParameters.new
-			rules = { dst_end_rule: "dstEndRule", dst_offset: "dstOffset", dst_start_rule: "dstStartRule", tz_offset: "tzOffset" }
+			rules = [ 
+				Rule.new(:dst_end_rule, "dstEndRule", :string),
+				Rule.new(:dst_offset, "dstOffset", :time),
+				Rule.new(:dst_start_rule, "dstStartRule", :string),
+				Rule.new(:tz_offset, "tzOffset", :time)
+			]
 			generic_parser(xml, rules, time)
 			point.local_time_parameters = time
 		end
 
 		def generic_parser(xml, rules, append_to)
-			rules.each do |attr_name,xpath|
-				text = xml.xpath(xpath).text
-				append_to.send(attr_name.to_s+"=", text)
+			rules.each do |rule|
+				text = xml.xpath(rule.xpath).text
+				append_to.send(rule.attr_name.to_s+"=", text)
 			end
 		end
 	end
@@ -81,6 +89,16 @@ module GreenButton
 
 	class LocalTimeParameters
 		attr_accessor :dst_end_rule, :dst_offset, :dst_start_rule, :tz_offset
+	end
+
+	class Rule
+		attr_accessor :attr_name, :xpath, :type
+
+		def initialize(attr_name, xpath, type)
+			@attr_name = attr_name
+			@xpath = xpath
+			@type = type
+		end
 	end
 
 	class Loader
