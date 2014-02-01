@@ -25,11 +25,10 @@ module GreenButton
 
 		def parsed_usage_point(usage_point_xml)
 			point = UsagePoint.new
-			
-			point.service_kind 	= usage_point_xml.xpath('ServiceCategory/kind').text
-			point.self_href 		= usage_point_xml.xpath("../../link[@rel='self']/@href").text
-			parse_related(usage_point_xml, point)
-			
+			rules = { service_kind: 'ServiceCategory/kind', self_href: "../../link[@rel='self']/@href" }
+			generic_parser(usage_point_xml, rules, point)
+
+			parse_related(usage_point_xml, point)			
 			point
 		end
 
@@ -37,7 +36,6 @@ module GreenButton
 			related_hrefs = []
 			xml.xpath("../../link[@rel='related']/@href").each do |rel|
 				related_hrefs << rel.text
-				# pending: look for all "self" entries and parse them.
 				related_entry = xml.xpath("//link[@rel='self' and @href='#{rel.text}']/..")
 				parse_entry(related_entry, point)
 			end
@@ -45,13 +43,20 @@ module GreenButton
 		end
 
 		def parse_entry(xml, point)
-			if xml.xpath('content/LocalTimeParameters')
-				time = LocalTimeParameters.new
-				time.dst_end_rule = xml.xpath('content/LocalTimeParameters/dstEndRule').text
-				time.dst_offset = xml.xpath('content/LocalTimeParameters/dstOffset').text
-				time.dst_start_rule = xml.xpath('content/LocalTimeParameters/dstStartRule').text
-				time.tz_offset = xml.xpath('content/LocalTimeParameters/tzOffset').text
-				point.local_time_parameters = time
+			parse_local_time_parameters(xml.xpath('content/LocalTimeParameters'), point)
+		end
+
+		def parse_local_time_parameters(xml, point)
+			time = LocalTimeParameters.new
+			rules = { dst_end_rule: "dstEndRule", dst_offset: "dstOffset", dst_start_rule: "dstStartRule", tz_offset: "tzOffset" }
+			generic_parser(xml, rules, time)
+			point.local_time_parameters = time
+		end
+
+		def generic_parser(xml, rules, append_to)
+			rules.each do |attr_name,xpath|
+				text = xml.xpath(xpath).text
+				append_to.send(attr_name.to_s+"=", text)
 			end
 		end
 	end

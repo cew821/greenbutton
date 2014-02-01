@@ -54,6 +54,17 @@ describe GreenButton::Parser do
 			expect(point.local_time_parameters.dst_start_rule).to eq "360E2000"
 			expect(point.local_time_parameters.tz_offset).to eq "-28800"
 		end
+
+		# it "parses meter readings within interval blocks" do 
+		# 	parser = new_parser_with_data
+		# 	xml = parser.doc
+		# 	point = parser.parsed_usage_point(xml.xpath('//UsagePoint').first)
+		# 	parser.parse_related(xml, point)
+		# 	expect(point.meter_readings.first.interval_blocks.first.interval.dst_end_rule).to eq "B40E2000"
+		# 	expect(point.local_time_parameters.dst_offset).to eq "3600"
+		# 	expect(point.local_time_parameters.dst_start_rule).to eq "360E2000"
+		# 	expect(point.local_time_parameters.tz_offset).to eq "-28800"
+		# end
 	end
 end
 
