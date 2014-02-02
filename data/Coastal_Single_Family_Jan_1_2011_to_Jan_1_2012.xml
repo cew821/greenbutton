@@ -143,7 +143,7 @@ permissions and limitations under the License.
     </entry>
 
 
-    
+
 <entry>
     <id>urn:uuid:EE0EC179-2726-43B1-BFE2-40ACC6A8901B</id>
     <link rel="self" href="RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01/IntervalBlock/0173"/>
@@ -2695,6 +2695,9 @@ permissions and limitations under the License.
     <published>2012-10-24T00:00:00Z</published>
     <updated>2012-10-24T00:00:00Z</updated>
 </entry>
+
+
+
     <entry>
     <id>urn:uuid:429EAE17-A8C7-4E7F-B101-D66173B2166C</id>
         <link rel="self" href="RetailCustomer/9b6c7063/ElectricPowerUsageSummary/01"/>

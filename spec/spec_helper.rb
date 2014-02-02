@@ -15,3 +15,23 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 end
+
+
+
+# Helper methods for all objects: 
+
+def new_parser_with_data
+	doc = load_sample_xml
+	parser = GreenButton::Parser.new(doc)
+end
+
+def load_and_parse_greenbutton
+	parser = new_parser_with_data
+	parser.parse_greenbutton_xml
+end
+
+def load_sample_xml
+	file_path = "data/Coastal_Single_Family_Jan_1_2011_to_Jan_1_2012.xml"	
+	loader = GreenButton::Loader.new
+	loader.load_xml_from_file(file_path)
+end

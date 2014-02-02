@@ -31,7 +31,7 @@ module GreenButton
 				Rule.new(:service_kind, "ServiceCategory/kind", :ServiceKind),
 				Rule.new(:self_href, "../../link[@rel='self']/@href", :string),
 				Rule.new(:id, "../../id", :string)]
-			generic_parser(usage_point_xml, rules, point)
+			Objectifier.parse_group(usage_point_xml, rules, point)
 			parse_related(usage_point_xml, point)
 			point
 		end
