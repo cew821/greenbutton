@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-require_relative '../lib/parser'
+require_relative '../lib/greenbutton'
 
 describe GreenButton::Parser do
 	it "should initialize" do

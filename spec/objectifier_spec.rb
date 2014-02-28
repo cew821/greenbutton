@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-require_relative '../lib/parser'
+require_relative '../lib/greenbutton'
 
 describe GreenButton::Objectifier, '.parse' do
 	it "accepts xml, rule and object, and creates the right object" do
