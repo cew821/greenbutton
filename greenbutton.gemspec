@@ -10,5 +10,6 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/cew821/greenbutton'
 
   s.add_development_dependency 'rspec'
+  s.add_development_dependency 'nokogiri'
   s.require_path = 'lib'
 end
