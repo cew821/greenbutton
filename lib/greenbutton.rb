@@ -14,7 +14,9 @@ module GreenButton
 		def parse_greenbutton_xml
 			parsed_data = Data.new
 			parsed_data.usage_points = parsed_usage_points
-			parsed_data
+      parse_meter_readings(doc.xpath('//content/IntervalBlock/IntervalReading/timePeriod/start'), parsed_data)
+
+      parsed_data
 		end
 
 		def parsed_usage_points
@@ -49,9 +51,22 @@ module GreenButton
 		def parse_entry(xml, point)
 			parse_local_time_parameters(xml.xpath('content/LocalTimeParameters'), point)
 			parse_electric_power_usage_summary(xml.xpath('content/ElectricPowerUsageSummary'),point)
-		end
+    end
 
-		def parse_electric_power_usage_summary(xml, point)
+    def parse_meter_readings(time_stamps, parsed_data)
+      parsed_data.meter_readings = []
+
+      time_stamps.each do |time_stamp|
+        reading = MeterReading.new
+
+        reading.meter_reading = time_stamp.xpath('../../value').text
+        reading.time_stamp = time_stamp.text
+
+        parsed_data.meter_readings << reading
+      end
+    end
+
+    def parse_electric_power_usage_summary(xml, point)
 			usage_summary = ElectricPowerUsageSummary.new
 
 			point.electric_power_usage_summary = usage_summary
@@ -78,8 +93,12 @@ module GreenButton
 	end
 
 	class Data
-		attr_accessor :usage_points
-	end
+		attr_accessor :usage_points, :meter_readings
+  end
+
+  class MeterReading
+    attr_accessor :time_stamp, :meter_reading
+  end
 
 	class UsagePoint
 		attr_accessor :service_kind, :self_href, :related_hrefs, :local_time_parameters, :id, :electric_power_usage_summary
