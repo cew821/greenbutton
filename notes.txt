@@ -1,3 +1,8 @@
+Questions:
+
+- times are usually in seconds since the epoch, but someimtes they are in ISO 6801. Example: electric power usage summary updated and published. WTF.
+
+
 - a few strategies...
 
 - meter readings / up and down the tree /

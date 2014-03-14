@@ -26,6 +26,8 @@ module GreenButton
 					"8" => :tv_licence,
 					"9" => :internet }
 				translated = keys[input_to_translate]
+			when :time
+				translated = Time.at(input_to_translate.to_i)
 			else
 				translated = input_to_translate
 			end

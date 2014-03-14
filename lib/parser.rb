@@ -40,33 +40,49 @@ module GreenButton
 			related_hrefs = []
 			xml.xpath("../../link[@rel='related']/@href").each do |rel|
 				related_hrefs << rel.text
-				related_entry = xml.xpath("//link[@rel='self' and @href='#{rel.text}']/..")
+				if !xml.xpath("//link[@rel='self' and @href='#{rel.text}']/..").empty?
+					related_entry = xml.xpath("//link[@rel='self' and @href='#{rel.text}']/..")
+				elsif !xml.xpath("//link[@rel='up' and @href='#{rel.text}']/..").empty?
+					related_entry = xml.xpath("//link[@rel='up' and @href='#{rel.text}']/..")
+				end
 				parse_entry(related_entry, point)
 			end
 			point.related_hrefs = related_hrefs
+			puts related_hrefs
 		end
 
 		def parse_entry(xml, point)
 			parse_local_time_parameters(xml.xpath('content/LocalTimeParameters'), point)
 			parse_electric_power_usage_summary(xml.xpath('content/ElectricPowerUsageSummary'),point)
+			parse_meter_reading(xml.xpath('content/MeterReading'), point)
+		end
+
+		def parse_meter_reading(xml, point)
+			return if xml.empty?
+			point.meter_readings = []
+			point.reading_type
 		end
 
 		def parse_electric_power_usage_summary(xml, point)
-			usage_summary = ElectricPowerUsageSummary.new
-
-			point.electric_power_usage_summary = usage_summary
+			return if xml.empty?
+			point.electric_power_usage_summary = ElectricPowerUsageSummary.new
+			rules = [
+				Rule.new(:power_of_ten_multiplier, 'currentBillingPeriodOverAllConsumption/powerOfTenMultiplier', :integer),
+				Rule.new(:billing_period_start, 'billingPeriod/start', :time)
+			]
+			Objectifier.parse_group(xml, rules, point.electric_power_usage_summary)
 		end
 
 		def parse_local_time_parameters(xml, point)
-			time = LocalTimeParameters.new
+			return if xml.empty?
+			point.local_time_parameters = LocalTimeParameters.new
 			rules = [ 
 				Rule.new(:dst_end_rule, "dstEndRule", :string),
-				Rule.new(:dst_offset, "dstOffset", :time),
+				Rule.new(:dst_offset, "dstOffset", :integer),
 				Rule.new(:dst_start_rule, "dstStartRule", :string),
-				Rule.new(:tz_offset, "tzOffset", :time)
+				Rule.new(:tz_offset, "tzOffset", :integer)
 			]
-			generic_parser(xml, rules, time)
-			point.local_time_parameters = time
+			Objectifier.parse_group(xml, rules, point.local_time_parameters)
 		end
 
 		def generic_parser(xml, rules, append_to)
@@ -82,11 +98,15 @@ module GreenButton
 	end
 
 	class UsagePoint
-		attr_accessor :service_kind, :self_href, :related_hrefs, :local_time_parameters, :id, :electric_power_usage_summary
+		attr_accessor :service_kind, :self_href, :related_hrefs, :local_time_parameters, :id, :electric_power_usage_summary, :meter_readings, :reading_type
+	end
+
+	class ReadingType
+		attr_accessor :accumulation_behavior, :commodity, :currency, :data_qualifier, :flow_direction, :interval_length, :kind, :phase, :power_of_ten_multiplier, :time_attribute, :uom
 	end
 
 	class ElectricPowerUsageSummary
-		attr_accessor :billing_period
+		attr_accessor :billing_period_start, :billing_period_duration, :power_of_ten_multiplier
 	end
 
 	class LocalTimeParameters

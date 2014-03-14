@@ -1,4 +1,7 @@
+
 ## Sample Green Button Parser Implemented in Ruby ##
+
+[![Code Climate](https://codeclimate.com/github/cew821/greenbutton.png)](https://codeclimate.com/github/cew821/greenbutton)
 
 This is a sample implementation of a parser for [Green Button Data](http://services.greenbuttondata.org/), written in Ruby.
 

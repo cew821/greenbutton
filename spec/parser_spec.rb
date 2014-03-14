@@ -53,7 +53,6 @@ describe GreenButton::Parser do
 			parser = new_parser_with_data
 			xml = parser.doc
 			point = parser.parsed_usage_point(xml.xpath('//UsagePoint').first)
-			parser.parse_related(xml, point)
 			expect(point.local_time_parameters.dst_end_rule).to eq "B40E2000"
 			expect(point.local_time_parameters.dst_offset).to eq "3600"
 			expect(point.local_time_parameters.dst_start_rule).to eq "360E2000"
@@ -64,19 +63,45 @@ describe GreenButton::Parser do
 			parser = new_parser_with_data
 			xml = parser.doc
 			point = parser.parsed_usage_point(xml.xpath('//UsagePoint').first)
-			parser.parse_related(xml, point)
-			expect(point.electric_power_usage_summary.billing_period.start).to eq "2011-11-01z07:00:00"
+
+			expect(point.electric_power_usage_summary.power_of_ten_multiplier).to eq "0"
+			expect(point.electric_power_usage_summary.billing_period_start).to eq Time.new(2011,11,01,7,0,0,"+00:00")
+			expect(point.electric_power_usage_summary.billing_period_time_stamp).to eq Time.at(1325401200).utc
+			expect(point.electric_power_usage_summary.overall_consumption_uom).to eq "72"
+			expect(point.electric_power_usage_summary.overall_consumption_value).to eq 610314
+			expect(point.electric_power_usage_summary.quality_of_reading).to eq "14"
+			expect(point.electric_power_usage_summary.status_time_stamp).to eq Time.at(1325401200).utc
+			pending "expect(point.electric_power_usage_summary.published).to eq Time.new(2012,10,24)"
+			pending "expect(point.electric_power_usage_summary.published).to eq Time.new(2012,10,24)"
 		end
+
+		it "parses reading types" do
+			parser = new_parser_with_data
+			xml = parser.doc
+			point = parser.parsed_usage_point(xml.xpath('//UsagePoint').first)
+
+			expect(point.reading_type.accumulation_behavior).to eq "4"
+			expect(point.reading_type.commodity).to eq "1"
+			expect(point.reading_type.currency).to eq "840"
+			expect(point.reading_type.data_qualifier).to eq "12"
+			expect(point.reading_type.flow_direction).to eq "1"
+			expect(point.reading_type.interval_length).to eq 3600
+			expect(point.reading_type.kind).to eq "12"
+			expect(point.reading_type.phase).to eq "769"
+			expect(point.reading_type.power_of_ten_multiplier).to eq "0"
+			expect(point.reading_type.time_attribute).to eq "0"
+			expect(point.reading_type.uom).to eq "72"
+
+		end
+
 
 		# it "parses meter readings within interval blocks" do 
 		# 	parser = new_parser_with_data
 		# 	xml = parser.doc
 		# 	point = parser.parsed_usage_point(xml.xpath('//UsagePoint').first)
-		# 	parser.parse_related(xml, point)
-		# 	expect(point.meter_readings.first.interval_blocks.first.interval.dst_end_rule).to eq "B40E2000"
-		# 	expect(point.local_time_parameters.dst_offset).to eq "3600"
-		# 	expect(point.local_time_parameters.dst_start_rule).to eq "360E2000"
-		# 	expect(point.local_time_parameters.tz_offset).to eq "-28800"
+
+		# 	expect(point.meter_readings.first.interval_blocks.first.interval_start).to eq Time.at(1293868800).utc
+		# 	expect(point.meter_readings.first.interval_blocks.first.interval_duration).to eq 2678400
 		# end
 	end
 end
