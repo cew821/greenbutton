@@ -1,7 +1,6 @@
 module GreenButtonClasses
-  require_relative 'helpers'
+  require './lib/helpers.rb'
   require 'nokogiri'
-  require 'pry'
   
   Rule = Helper::Rule
   RULES = [
@@ -9,8 +8,8 @@ module GreenButtonClasses
     Rule.new(:parent_href, "./link[@rel='up']/@href", :string),
     Rule.new(:id, "./id", :string),
     Rule.new(:title, "./title", :string),
-    Rule.new(:published, "./published", :datetime),
-    Rule.new(:updated, "./updated", :datetime)
+    Rule.new(:date_published, "./published", :datetime),
+    Rule.new(:date_updated, "./updated", :datetime)
   ]
     
   
@@ -40,27 +39,23 @@ module GreenButtonClasses
       self.usage_point.doc
     end
     
+    def find_by_href(href)
+      doc.xpath("//link[@rel='self' and @href='#{href}']/..")[0]
+    end
+    
     def assign_rules
-      puts '>> assign rules <<'
       (RULES + additional_rules).each do |rule|
         create_attr(rule.attr_name)
         rule_xml = @entry_xml.xpath(rule.xpath)
         value = rule_xml.empty? ? nil : rule_xml.text
         translated_value = value.nil? ? nil : Helper.translate(rule.type, value)
-        puts rule.attr_name, translated_value
         self.send(rule.attr_name.to_s+"=", translated_value)
       end
     end
     
-    def find_by_href(href)
-      doc.xpath("//link[@rel='self' and @href='#{href}']/..")[0]
-    end
-    
     def find_related_entries
-      puts '>> find related entries <<'
       self.related_hrefs = []
       @entry_xml.xpath("./link[@rel='related']/@href").each do |href|
-        puts href.text
         if /\/\d+$/i.match(href.text)
           related_entry = find_by_href(href.text)
           if related_entry
@@ -79,7 +74,6 @@ module GreenButtonClasses
     end
     
     def parse_related_entry(entry_xml)
-      puts '>> init related entry <<'
       name = get_related_name(entry_xml)
       classParser = GreenButtonClasses.const_get(name)
       if !classParser.nil?
@@ -96,11 +90,8 @@ module GreenButtonClasses
     private 
     
       def get_related_name(xml)
-        puts '>> get related name <<'
         name = nil
         xml.xpath('./content').children.each do |elem|
-          puts 'content children'
-          puts elem.name
           if elem.name != 'text'
             name = elem.name
             break
@@ -111,7 +102,6 @@ module GreenButtonClasses
       
       def alt_link(href)
         # SDGE links map as .../MeterReading to .../MeterReading/\d+
-        puts '>> alt link <<'
         regex =  Regexp.new(href + '\/\d+$')
         related_link = doc.xpath("//link[@rel='self']").select do |e| 
           if e['href'] =~ regex 
@@ -198,7 +188,7 @@ module GreenButtonClasses
   
   class ReadingType < GreenButtonEntry
     attr_accessor :meter_reading
-    ATTRS = ['accumulationBehavior', 'commodity', 'currency', 'dataQualifier', 'flowDirection', 'intervalLength',
+    ATTRS = ['accumulationBehaviour', 'commodity', 'currency', 'dataQualifier', 'flowDirection', 'intervalLength',
         'kind', 'phase', 'powerOfTenMultiplier', 'timeAttribute', 'uom']
     
     def pre_rule_assignment(parent)
@@ -208,11 +198,11 @@ module GreenButtonClasses
     def doc
       self.meter_reading.doc
     end
-    
+
     def additional_rules
       rules = []
       ATTRS.each do |attr|
-        rules << Rule.new( Helper.underscore(attr).to_sym, '//'+attr, :integer )
+        rules << Rule.new( Helper.underscore(attr).to_sym, './/'+attr, :integer )
       end
       rules
     end
@@ -279,8 +269,8 @@ module GreenButtonClasses
     
     def additional_rules
       [
-        Rule.new(:start_time, '//interval/start', :unix_time),
-        Rule.new(:duration, '//interval/duration', :integer)
+        Rule.new(:start_time, './/interval/start', :unix_time),
+        Rule.new(:duration, './/interval/duration', :integer)
       ]
     end
     
@@ -296,18 +286,19 @@ module GreenButtonClasses
       self.meter_reading.reading_type.power_of_ten_multiplier
     end
     
-    def value_at_time(time)
-      time.utc
+    def reading_at_time(time)
       if (time >= self.start_time) && (time < end_time)
         @entry_xml.xpath('.//IntervalReading').each do |interval_reading|
            intervalReading = IntervalReading.new(interval_reading)
            if (intervalReading.start_time <= time) && (intervalReading.end_time > time)
-             puts intervalReading.value
-             puts power_of_ten_multiplier
-             return intervalReading.value*10**power_of_ten_multiplier
+             return intervalReading
            end
         end   
-      end   
+      end
+    end
+    
+    def value_at_time(time)
+      reading_at_time(time).value*10**power_of_ten_multiplier
     end
     
     def total
@@ -315,6 +306,14 @@ module GreenButtonClasses
         @total = sum
       end
       @total
+    end
+    
+    def average_interval_value
+      total/n_readings
+    end
+    
+    def n_readings
+      @entry_xml.xpath('.//IntervalReading').length
     end
     
     def sum(starttime=nil, endtime=nil)

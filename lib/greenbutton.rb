@@ -1,6 +1,6 @@
 module GreenButton
 	require 'nokogiri'
-	require_relative 'greenbutton/gb_classes.rb'
+	require './lib/gb_classes.rb'
 	
 	UsagePoint = GreenButtonClasses::UsagePoint
 	  
@@ -10,17 +10,17 @@ module GreenButton
   def self.load_xml_from_web(url)
     xml_file = Nokogiri.XML(open(url))
     xml_file.remove_namespaces!
-    GreenButton.new(xml_file)
+    Parser.new(xml_file)
   end
 
   def self.load_xml_from_file(path)
     xml_file = Nokogiri.XML(File.open(path, 'rb'))
     xml_file.remove_namespaces!
-    GreenButton.new(xml_file)
+    Parser.new(xml_file)
   end
 	  
 
-	class GreenButton
+	class Parser
 		attr_accessor :doc, :usage_points
 
 		def initialize(doc)

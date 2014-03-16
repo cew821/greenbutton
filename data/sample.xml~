@@ -95,8 +95,6 @@ permissions and limitations under the License.
 
 
 
-
-
     <entry>
     <id>urn:uuid:9BCDAB06-6690-46A3-9253-A451AF4077D8</id>
         <link rel="self" href="RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01"/>
@@ -110,9 +108,6 @@ permissions and limitations under the License.
         <published>2012-10-24T00:00:00Z</published>
         <updated>2012-10-24T00:00:00Z</updated>
     </entry>
-
-
-
 
     <entry>
     <id>urn:uuid:BEB04FF1-6294-4916-95AC-5597070C95D4</id>

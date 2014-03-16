@@ -20,7 +20,7 @@ module Helper
         when :ServiceKind
           translated = SERVICE_KIND_HASH[input_to_translate]
         when :datetime
-          translated = DateTime.parse(input_to_translate).to_time
+          translated = DateTime.parse(input_to_translate).to_time.utc
         when :unix_time
           translated = Time.at(input_to_translate.to_i).utc
         when :integer
