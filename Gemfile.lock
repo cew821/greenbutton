@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    greenbutton (0.0.1)
+      nokogiri (~> 1.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -18,5 +24,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  nokogiri
-  rspec
+  bundler (~> 1.5)
+  greenbutton!
+  rspec (~> 2.14)
