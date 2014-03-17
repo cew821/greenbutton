@@ -9,7 +9,8 @@ describe GreenButton do
   end
 
 	describe GreenButton::Parser do
-	  let(:gb){ GreenButton.load_xml_from_file('./data/Coastal_Single_Family_Jan_1_2011_to_Jan_1_2012.xml') }
+	  let(:gb){ GreenButton.load_xml_from_file('spec/fixtures/sample_greenbutton_data.xml') }
+    
 	  it "should initialize" do
       expect(gb).to be_a(GreenButton::Parser)
     end
