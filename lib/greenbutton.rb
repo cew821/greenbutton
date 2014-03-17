@@ -1,6 +1,6 @@
 module GreenButton
 	require 'nokogiri'
-	require './lib/gb_classes.rb'
+	require 'greenbutton/gb_classes.rb'
 	
 	UsagePoint = GreenButtonClasses::UsagePoint
 	  
