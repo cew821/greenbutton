@@ -2,3 +2,5 @@ notes.txt
 test.rb
 .project
 .DS_Store
+.bundle/
+/.bundle/*

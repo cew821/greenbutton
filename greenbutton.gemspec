@@ -11,5 +11,9 @@ Gem::Specification.new do |s|
     'https://github.com/cew821/greenbutton'
   s.license       = 'MIT'
 
-  s.test_files  = Dir.glob('spec/tc_*.rb')
+  s.add_dependency "nokogiri", "~>1.6.1"
+  s.add_development_dependency "bundler", "~>1.5.1"
+  s.add_development_dependency "rspec", "~>2.14.4"
+
+  s.test_files  = Dir.glob('spec/*.rb')
 end
