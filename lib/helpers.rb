@@ -18,7 +18,7 @@ module Helper
       if !input_to_translate.nil?
         case type
         when :ServiceKind
-          translated = SERVICE_KIND_HASH[input_to_translate]
+          translated = SERVICE_KIND_HASH[input_to_translate] || input_to_translate
         when :datetime
           translated = DateTime.parse(input_to_translate).to_time.utc
         when :unix_time

@@ -5,13 +5,20 @@ describe :translate do
   it "correctly parses :ServiceKind" do
     expect(Helper.translate(:ServiceKind, '7')).to eq(:rates)
   end
-  it "correctly parses :ServiceKind" do
+
+  it "fails gracefully if it can't find the :serviceKind" do
+    expect(Helper.translate(:ServiceKind, '100')).to eq('100')
+  end
+
+  it "correctly parses :integer" do
     expect(Helper.translate(:integer, '2343')).to eq(2343)
   end
-  it "correctly parses :ServiceKind" do
+
+  it "correctly parses :datetime" do
     expect(Helper.translate(:datetime, '2012-10-24T00:00:00Z')).to eq(DateTime.parse('2012-10-24T00:00:00Z').to_time.utc)
   end
-  it "correctly parses :ServiceKind" do
+
+  it "correctly parses :unixtime" do
     expect(Helper.translate(:unix_time, '1293868800')).to eq(Time.at(1293868800).utc)
   end
 end
