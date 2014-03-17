@@ -1,10 +1,71 @@
-
-## Sample Green Button Parser Implemented in Ruby ##
+# Green Button #
+A parser for Green Button data XML files, written in Ruby.
 
 [![Code Climate](https://codeclimate.com/github/cew821/greenbutton.png)](https://codeclimate.com/github/cew821/greenbutton)
 
-This is a sample implementation of a parser for [Green Button Data](http://services.greenbuttondata.org/), written in Ruby.
+## About This Project ##
 
-This parser parsers Green Button XML into ruby objects.
+This is an implementation of a parser for [Green Button Data](http://services.greenbuttondata.org/), written in Ruby. Green Button is a data standard for communicating utility usage 
+
+This parser parsers a Green Button XML data file into a series of Ruby objects that can be used in your application
 
 This software is free, and is released as open source under the MIT license. See license.txt for complete details.
+
+## Installation ##
+
+First, install the gem.
+
+`$ gem install greenbutton`
+
+or, if you're using bundler, add the gem to your `Gemfile`:
+
+`gem 'greenbutton'`
+
+and run `$ bundle install`
+
+The parser uses [Nokogiri](http://nokogiri.org/) for XML parsing, and will install it as a dependency.
+
+## Usage ##
+
+### Loading the XML ###
+
+The gem can load a Green Button XML file, either from a file or a URL. Load the parsed XML file like so:
+
+```ruby
+require 'greenbutton'
+
+# To load from file:
+gb = GreenButton.load_xml_from_file('PATH/TO/FILE.XML')
+
+# To load from URL:
+gb = GreenButton.load_xml_from_web('https://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/RetailCustomer/3/UsagePoint')
+```
+
+This code will load the Green Button XML from the given file or URL and parse it into a series of Ruby objects representing the data contained in the file.
+
+Note: the above URL points to a sample Green Button data file representing a year's worth of electricity usage in one hour intervals for a sample home. More sample data can be found at http://services.greenbuttondata.org/sample-data.html
+
+### Using the Data ###
+
+Green Button data files are organized into `UsagePoints`, which represent the point at which the measurements in the file were made. Typically, these represent the meter at a home or business, but they could also be submeters or even individual appliances.
+
+The sample file referenced above contains a single usage point (the meter outside of the home). You can use the following code to examine the data from the UsagePoint  more closely:
+
+```ruby
+usage_point = gb.usage_points.first
+usage_point.service_kind                                          # => :electricity
+usage_point.meter_readings.first.interval_blocks.count            # => 730
+usage_point.meter_readings.first.interval_blocks.first.total      # => 5985.0
+```
+
+For more information on understanding the data contained in a typical Green Button file, see below.
+
+## Understanding Green Button Data ##
+
+**This section is under construction. If you would like to help write better documentation for the library, get in touch!**
+
+Green Button data files are organized according to the informational model shown below:
+
+![Green Button Information Model](https://collaborate.nist.gov/twiki-sggrid/pub/SmartGrid/GreenButtonSDK/ESPISchemaOverview.png)
+
+Essentially, you can think of a Green Button XML file as a dump from a relational database with several interconnected tables of information about a customer's electricity usage (in the most common cases, although the standard can be and is used to measure usage of other utilities such as gas and water).
