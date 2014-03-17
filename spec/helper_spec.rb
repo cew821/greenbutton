@@ -1,5 +1,4 @@
 require 'spec_helper'
-require './lib/greenbutton/helpers.rb'
 
 describe :translate do
   it "correctly parses :ServiceKind" do

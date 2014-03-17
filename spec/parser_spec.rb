@@ -1,5 +1,4 @@
 require 'spec_helper'
-require './lib/greenbutton.rb'
 
 describe GreenButton do
   it "has web and file loading methods" do
