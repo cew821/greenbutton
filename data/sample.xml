@@ -58,7 +58,7 @@ permissions and limitations under the License.
  <link rel="self" href="/ThirdParty/83e269c1/Batch"/>
     
     <entry>
-    <id>urn:uuid:4217A3D3-60E0-46CD-A5AF-2A2D091F397E</id>
+        <id>urn:uuid:4217A3D3-60E0-46CD-A5AF-2A2D091F397E</id>
         <link rel="self" href="RetailCustomer/9b6c7063/UsagePoint/01"/>
         <link rel="up" href="RetailCustomer/9b6c7063/UsagePoint"/>
         <link rel="related" href="RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"/>
@@ -93,10 +93,6 @@ permissions and limitations under the License.
         <updated>2012-10-24T00:00:00Z</updated>
     </entry>
 
-
-
-
-
     <entry>
     <id>urn:uuid:9BCDAB06-6690-46A3-9253-A451AF4077D8</id>
         <link rel="self" href="RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01"/>
@@ -110,9 +106,6 @@ permissions and limitations under the License.
         <published>2012-10-24T00:00:00Z</published>
         <updated>2012-10-24T00:00:00Z</updated>
     </entry>
-
-
-
 
     <entry>
     <id>urn:uuid:BEB04FF1-6294-4916-95AC-5597070C95D4</id>
@@ -137,38 +130,6 @@ permissions and limitations under the License.
         <published>2012-10-24T00:00:00Z</published>
         <updated>2012-10-24T00:00:00Z</updated>
     </entry>
-
-
-
-
-
-    <entry>
-    <id>urn:uuid:429EAE17-A8C7-4E7F-B101-D66173B2166C</id>
-        <link rel="self" href="RetailCustomer/9b6c7063/ElectricPowerUsageSummary/01"/>
-        <link rel="up" type="" href="RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary"/>
-        <title>Usage Summary</title>
-        <content>
-            <ElectricPowerUsageSummary xmlns="http://naesb.org/espi">
-                <billingPeriod>
-                    <duration>2592000</duration>
-                    <start>1320130800</start>
-                    <!-- start: 11/1/2011 7:00:00 AM-->
-                </billingPeriod>
-                <currentBillingPeriodOverAllConsumption>
-                    <powerOfTenMultiplier>0</powerOfTenMultiplier>
-                    <timeStamp>1325401200</timeStamp>
-                    <uom>72</uom>
-                    <value>610314</value>
-                </currentBillingPeriodOverAllConsumption>
-                <qualityOfReading>14</qualityOfReading>
-                <statusTimeStamp>1325401200</statusTimeStamp>
-                <!-- statusTimeStamp: 12/31/2011 11:00:00 PM -->
-            </ElectricPowerUsageSummary>
-        </content>
-        <published>2012-10-24T00:00:00Z</published>
-        <updated>2012-10-24T00:00:00Z</updated>
-    </entry>
-
 
 
 
@@ -2725,4 +2686,31 @@ permissions and limitations under the License.
 </entry>
 
 
+
+    <entry>
+    <id>urn:uuid:429EAE17-A8C7-4E7F-B101-D66173B2166C</id>
+        <link rel="self" href="RetailCustomer/9b6c7063/ElectricPowerUsageSummary/01"/>
+        <link rel="up" type="" href="RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary"/>
+        <title>Usage Summary</title>
+        <content>
+            <ElectricPowerUsageSummary xmlns="http://naesb.org/espi">
+                <billingPeriod>
+                    <duration>2592000</duration>
+                    <start>1320130800</start>
+                    <!-- start: 11/1/2011 7:00:00 AM-->
+                </billingPeriod>
+                <currentBillingPeriodOverAllConsumption>
+                    <powerOfTenMultiplier>0</powerOfTenMultiplier>
+                    <timeStamp>1325401200</timeStamp>
+                    <uom>72</uom>
+                    <value>610314</value>
+                </currentBillingPeriodOverAllConsumption>
+                <qualityOfReading>14</qualityOfReading>
+                <statusTimeStamp>1325401200</statusTimeStamp>
+                <!-- statusTimeStamp: 12/31/2011 11:00:00 PM -->
+            </ElectricPowerUsageSummary>
+        </content>
+        <published>2012-10-24T00:00:00Z</published>
+        <updated>2012-10-24T00:00:00Z</updated>
+    </entry>
 </feed>
