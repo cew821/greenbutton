@@ -1,5 +1,5 @@
 module GreenButtonClasses
-  require './lib/helpers.rb'
+  require 'greenbutton/helpers.rb'
   require 'nokogiri'
   
   Rule = Helper::Rule

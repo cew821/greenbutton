@@ -1,6 +1,5 @@
 require 'spec_helper'
 require './lib/greenbutton.rb'
-require './lib/gb_classes.rb'
 
 describe GreenButton do
   it "has web and file loading methods" do
@@ -10,7 +9,7 @@ describe GreenButton do
 
 	describe GreenButton::Parser do
 	  let(:gb){ GreenButton.load_xml_from_file('spec/fixtures/sample_greenbutton_data.xml') }
-    
+
 	  it "should initialize" do
       expect(gb).to be_a(GreenButton::Parser)
     end
