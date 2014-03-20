@@ -12,7 +12,6 @@ module GreenButtonClasses
     Rule.new(:date_updated, "./updated", :datetime)
   ]
     
-  
   class GreenButtonEntry
     attr_accessor :id, :title, :href, :published, :updated, :parent_href, :related_hrefs, :other_related
     
@@ -28,7 +27,7 @@ module GreenButtonClasses
     end
     
     def pre_rule_assignment(parent)
-      raise self.class + 'failed to implement pre_rule_assignment'
+      warn self.class + 'failed to implement pre_rule_assignment'
     end
     
     def additional_rules
@@ -65,7 +64,9 @@ module GreenButtonClasses
             warn 'no link found for href: ' + href.text
           end
         else  
-          doc.xpath("//link[@rel='up' and @href='#{href.text}']").each do |link|
+          many_related = doc.xpath("//link[@rel='up' and @href='#{href.text}']")
+          many_related = alt_links(href.text) if many_related.length == 0
+          many_related.each do |link|
             self.related_hrefs << link.attr('href')
             parse_related_entry(link.parent)
           end
@@ -84,7 +85,7 @@ module GreenButtonClasses
     end 
     
     def add_related(type, parser)
-      raise self.class + ' does not have any recognized relations.'
+      warn self.class + ' does not have any recognized relations.'
     end
     
     private 
@@ -100,7 +101,7 @@ module GreenButtonClasses
         name
       end
       
-      def alt_link(href)
+      def alt_links(href)
         # SDGE links map as .../MeterReading to .../MeterReading/\d+
         regex =  Regexp.new(href + '\/\d+$')
         related_link = doc.xpath("//link[@rel='self']").select do |e| 
@@ -108,7 +109,7 @@ module GreenButtonClasses
             e.parent
           end
         end
-        related_link[0]
+        related_link
       end 
     
       def create_method( name, &block )
@@ -148,7 +149,7 @@ module GreenButtonClasses
       when 'meter_reading', 'electric_power_usage_summary', 'electric_power_quality_summary'
         self.send(Helper.pluralize(type)) << parser
       else 
-        raise 'Not a recognized relation for UsagePoint: ' + type
+        warn 'Not a recognized relation for UsagePoint: ' + type
       end
     end
     
@@ -181,7 +182,7 @@ module GreenButtonClasses
       when 'interval_block'
         self.interval_blocks << parser
       else
-        raise 'Not a recognized relation for MeterReading'
+        warn 'Not a recognized relation for MeterReading'
       end
     end
   end
