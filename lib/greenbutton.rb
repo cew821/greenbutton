@@ -1,6 +1,6 @@
 module GreenButton
 	require 'nokogiri'
-	require 'greenbutton/gb_classes.rb'
+	require './lib/greenbutton/gb_classes.rb'
 	
 	UsagePoint = GreenButtonClasses::UsagePoint
 	  
@@ -24,17 +24,17 @@ module GreenButton
 		attr_accessor :doc, :usage_points
 
 		def initialize(doc)
-			@doc = doc
-			@usage_points = []
-			doc.xpath('//UsagePoint').each do |usage_point|
-        @usage_points << UsagePoint.new(usage_point.parent.parent, self)
+			self.doc = doc
+			self.usage_points = []
+			doc.xpath('//UsagePoint/../..').each do |usage_point_entry|
+        @usage_points << UsagePoint.new(nil, usage_point_entry.remove, self)
       end
 		end
 		
 		def filter_usage_points(params)
 		  # customer_id, service_kind, title, id, href
 		  filtered = []
-		  @usage_points.each do |usage_point|
+		  self.usage_points.each do |usage_point|
 		    params.each_pair do |key, value|
 		      filtered << usage_point if usage_point.send(key) == value
 		    end
@@ -45,7 +45,7 @@ module GreenButton
 		def get_unique(attr)
 		  #customer_id, service_kind, title
 		  unique = []
-      @usage_points.each do |usage_point|
+      self.usage_points.each do |usage_point|
         val = usage_point.send(attr)
         if !unique.include?(val)
           unique << val

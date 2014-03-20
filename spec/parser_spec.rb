@@ -72,9 +72,6 @@ describe GreenButton do
         let(:electric_power_usage_summary) { usage_point.electric_power_usage_summaries.first }
         subject{ electric_power_usage_summary }
         
-        ['billLastPeriod', 'billToDate', 'costAdditionalLastPeriod', 'currency', 
-        'qualityOfReading', 'statusTimeStamp']
-        
         it{ should be_a GreenButtonClasses::ElectricPowerUsageSummary }
         its(:id){ should eq("urn:uuid:429EAE17-A8C7-4E7F-B101-D66173B2166C") }
         its(:href){ should eq("RetailCustomer/9b6c7063/ElectricPowerUsageSummary/01") }
