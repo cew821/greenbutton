@@ -1,5 +1,5 @@
 module GreenButtonClasses
-  require './lib/greenbutton/helpers.rb'
+  require_relative 'helpers.rb'
   require 'nokogiri'
   require 'pry'
   

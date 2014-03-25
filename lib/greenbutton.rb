@@ -1,6 +1,6 @@
 module GreenButton
 	require 'nokogiri'
-	require './lib/greenbutton/gb_classes.rb'
+	require_relative 'greenbutton/gb_classes.rb'
 	
 	UsagePoint = GreenButtonClasses::UsagePoint
 	  
@@ -35,9 +35,14 @@ module GreenButton
 		  # customer_id, service_kind, title, id, href
 		  filtered = []
 		  self.usage_points.each do |usage_point|
+		    include = true
 		    params.each_pair do |key, value|
-		      filtered << usage_point if usage_point.send(key) == value
+		      if usage_point.send(key) != value
+		        include = false
+		        break
+		      end
 		    end
+		    filtered << usage_point if include
 		  end
 		  filtered
 		end
