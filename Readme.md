@@ -45,6 +45,8 @@ This code will load the Green Button XML from the given file or URL and parse it
 
 Note: the above URL points to a sample Green Button data file representing a year's worth of electricity usage in one hour intervals for a sample home. More sample data can be found at http://services.greenbuttondata.org/sample-data.html
 
+Depending on how large and complex the Green Button data file you load, this process could take a relatively long time, as the current implementation downloads the file and loads it into memory in order to parse it. Therefore, it is best to use this method outside of the request/response cycle if you are using it in a web application.
+
 ### Using the Data ###
 
 Green Button data files are organized into `UsagePoints`, which represent the point at which the measurements in the file were made. Typically, these represent the meter at a home or business, but they could also be submeters or even individual appliances.
