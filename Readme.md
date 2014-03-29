@@ -60,6 +60,10 @@ usage_point.meter_readings.first.interval_blocks.first.total      # => 5985.0
 
 For more information on understanding the data contained in a typical Green Button file, see below.
 
+### See It In Action ###
+
+To see a very simple implementation of a Ruby application that uses the `greenbutton` gem, [check out the `GBSample` project on github](https://github.com/cew821/gbsample).
+
 ## Understanding Green Button Data ##
 
 **This section is under construction. If you would like to help write better documentation for the library, get in touch!**
