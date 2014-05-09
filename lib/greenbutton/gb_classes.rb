@@ -179,6 +179,26 @@ module GreenButtonClasses
       @customer_id
     end
     
+    def start_time
+      start_time = Time.now
+      self.meter_readings.each do |mr|
+        mr.interval_blocks.each do |ib|
+          start_time = [ib.start_time, start_time].min
+        end
+      end
+      start_time
+    end
+
+    def end_time
+      end_time = self.meter_readings[0].interval_blocks[0].end_time
+      self.meter_readings.each do |mr|
+        mr.interval_blocks.each do |ib|
+          end_time = [ib.end_time, end_time].max
+        end
+      end 
+      end_time
+    end
+    
   end
   
   class MeterReading < GreenButtonEntry

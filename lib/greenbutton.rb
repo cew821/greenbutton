@@ -24,10 +24,13 @@ module GreenButton
 		attr_accessor :doc, :usage_points
 
 		def initialize(doc)
-			self.doc = doc
-			self.usage_points = []
-			doc.xpath('//UsagePoint/../..').each do |usage_point_entry|
-        @usage_points << UsagePoint.new(nil, usage_point_entry.remove, self)
+      self.doc = doc
+      self.usage_points = []
+      doc.xpath('//UsagePoint/../..').each do |usage_point_entry|
+        up = UsagePoint.new(nil, usage_point_entry.remove, self)
+        if filter_usage_points(href: up.href).length == 0
+          @usage_points << up
+        end
       end
 		end
 		
@@ -58,6 +61,33 @@ module GreenButton
       end
       unique
 		end
+		
+    def start_time(params=nil)
+      if params
+        ups = filtered_usage_points(params)
+      else
+        ups = self.usage_points
+      end
+      start_time = Time.now
+      ups.each do |up|
+        start_time = [start_time, up.start_time].min
+      end
+      start_time
+    end
+
+    
+    def end_time(params=nil)
+      if params
+        ups = filtered_usage_points(params)
+      else
+        ups = self.usage_points
+      end
+      end_time = ups[0].end_time
+      ups.each do |up|
+        end_time = [end_time, up.end_time].max
+      end
+      end_time
+    end
 		
 	end
 end
