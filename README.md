@@ -5,7 +5,7 @@ A parser for Green Button data XML files, written in Ruby.
 
 ## About This Project ##
 
-This is an implementation of a parser for [Green Button Data](http://services.greenbuttondata.org/), written in Ruby. Green Button is a data standard for communicating utility usage 
+This is an implementation of a parser for [Green Button Data](http://services.greenbuttondata.org/), written in Ruby. Green Button is a data standard for communicating utility usage
 
 This parser parsers a Green Button XML data file into a series of Ruby objects that can be used in your application
 
@@ -29,16 +29,16 @@ The parser uses [Nokogiri](http://nokogiri.org/) for XML parsing, and will insta
 
 ### Loading the XML ###
 
-The gem can load a Green Button XML file, either from a file or a URL. Load the parsed XML file like so:
+You can load Green Button XML from either a local file or remote source using the `GreenButton#load` method like so:
 
 ```ruby
 require 'greenbutton'
 
 # To load from file:
-gb = GreenButton.load_xml_from_file('PATH/TO/FILE.XML')
+gb = GreenButton.load('PATH/TO/FILE.XML')
 
 # To load from URL:
-gb = GreenButton.load_xml_from_web('https://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/RetailCustomer/3/UsagePoint')
+gb = GreenButton.load('https://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/RetailCustomer/3/UsagePoint')
 ```
 
 This code will load the Green Button XML from the given file or URL and parse it into a series of Ruby objects representing the data contained in the file.
