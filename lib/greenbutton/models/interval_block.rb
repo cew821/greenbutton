@@ -37,41 +37,50 @@ module GreenButton
     end
 
     def value_at_time(time)
-      reading_at_time(time).value*10**power_of_ten_multiplier
+      computed_value(reading_at_time(time).value)
     end
 
     def total
-      if @total.nil?
-        @total = sum
-      end
-      @total
+      @total ||= sum
     end
 
     def average_interval_value
-      total/n_readings
+      total / num_of_readings
     end
 
-    def n_readings
+    def num_of_readings
       entry_node.xpath('.//IntervalReading').length
     end
 
-    def sum(starttime=nil, endtime=nil)
-      starttime = starttime.nil? ? self.start_time : starttime.utc
-      endtime = endtime.nil? ? end_time : endtime.utc
-      sum = 0
-      entry_node.xpath('.//IntervalReading').each do |interval_reading|
+    def sum(starttime = start_time, endtime = end_time)
+      starttime = starttime.utc
+      endtime = endtime.utc
+      reading_sum = interval_readings.reduce(0) do |sum, interval_reading|
         intervalReading = IntervalReading.new(interval_reading)
         if intervalReading.start_time >= starttime && intervalReading.start_time < endtime
           if intervalReading.end_time <= endtime
             sum += intervalReading.value
           else
-            ratio = (intervalReading.end_time.to_i - endtime.to_i)/intervalReading.duration
-            sum += ratio*intervalReading.value
+            sum += interval_ratio(intervalReading, endtime)
             break
           end
         end
+        sum
       end
-      sum*10**power_of_ten_multiplier
+      computed_value(reading_sum)
+    end
+
+    def interval_readings
+      @interval_readings ||= entry_node.xpath('.//IntervalReading')
+    end
+
+    def interval_ratio(reading, endtime)
+      ratio = (reading.end_time.to_i - endtime.to_i) / reading.duration
+      ratio * reading.value
+    end
+
+    def computed_value(value)
+      value * 10 ** power_of_ten_multiplier
     end
   end
 end
