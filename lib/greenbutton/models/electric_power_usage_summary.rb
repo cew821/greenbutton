@@ -21,7 +21,7 @@ module GreenButton
         current_timestamp: Rule.new(:current_timestamp, ".//currentBillingPeriodOverAllConsumption/timeStamp", :unix_time)
       }
       ATTRS.each do |attr|
-        sym = Helper.underscore(attr).to_sym
+        sym = underscore(attr).to_sym
         rules[sym] = Rule.new(sym , './/'+attr, :integer )
       end
       rules

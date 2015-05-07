@@ -19,7 +19,7 @@ module GreenButton
       when 'local_time_parameters'
         self.local_time_parameters = parser
       when 'meter_reading', 'electric_power_usage_summary', 'electric_power_quality_summary'
-        self.send(Helper.pluralize(type)) << parser
+        self.send(pluralize(type)) << parser
       else
         warn 'Not a recognized relation for UsagePoint: ' + type
       end

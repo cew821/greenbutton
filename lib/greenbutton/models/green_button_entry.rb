@@ -5,10 +5,10 @@ module GreenButton
     RULES = {
       href: Rule.new(:href, "./link[@rel='self']/@href", :string),
       parent_href: Rule.new(:parent_href, "./link[@rel='up']/@href", :string),
-      id: Rule.new(:id, "./id", :string),
-      title: Rule.new(:title, "./title", :string),
-      date_published: Rule.new(:date_published, "./published", :datetime),
-      date_updated: Rule.new(:date_updated, "./updated", :datetime)
+      id: Rule.new(:id, './id', :string),
+      title: Rule.new(:title, './title', :string),
+      date_published: Rule.new(:date_published, './published', :datetime),
+      date_updated: Rule.new(:date_updated, './updated', :datetime)
     }
 
     attr_accessor :related_hrefs, :other_related, :href_from_parent
@@ -61,7 +61,7 @@ module GreenButton
       rule_xml = entry_node.xpath(rule.xpath)
       value = rule_xml.empty? ? nil : rule_xml.text
       translated_value = value.nil? ? nil : translate(rule.type, value)
-      self.send(rule.attr_name.to_s+"=", translated_value)
+      self.send("#{rule.attr_name}=", translated_value)
       translated_value
     end
 
@@ -92,7 +92,7 @@ module GreenButton
     end
 
     def add_related_entry(type, parser)
-      warn self.class + ' does not have any recognized relations.'
+      warn "#{self.class} does not have any recognized relations."
     end
 
     private
@@ -121,19 +121,22 @@ module GreenButton
       self.class.send(:define_method, name, &block )
     end
 
-    def create_attr( name )
-      create_method( "#{name.to_s}=".to_sym ) { |val|
-        instance_variable_set( "@" + name.to_s, val)
-      }
-      create_method( name.to_sym ) {
-        val = instance_variable_get( "@" + name.to_s )
-        if val == false
+    def create_attr(name)
+      instance_name = "@#{name}"
+
+      create_method("#{name}=") do |val|
+        instance_variable_set(instance_name, val)
+      end
+
+      create_method(name) do
+        val = instance_variable_get(instance_name)
+        unless val
           val = assign_rule(name)
-          instance_variable_set( "@" + name.to_s, val)
+          instance_variable_set(instance_name, val)
         end
         val
-      }
-      instance_variable_set( "@" + name.to_s, false)
+      end
+      instance_variable_set(instance_name, false)
     end
 
   end

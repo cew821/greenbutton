@@ -15,8 +15,8 @@ module GreenButton
     def additional_rules
       rules = {}
       ATTRS.each do |attr|
-        sym = Helper.underscore(attr).to_sym
-        rules[sym] = Rule.new(sym , './/'+attr, :integer )
+        sym = underscore(attr).to_sym
+        rules[sym] = Rule.new(sym , ".//#{attr}", :integer )
       end
       rules
     end
