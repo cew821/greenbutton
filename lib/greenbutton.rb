@@ -1,9 +1,9 @@
 require 'nokogiri'
 require 'open-uri'
-require 'greenbutton/rule'
-require 'greenbutton/helpers'
-require 'greenbutton/models'
-require 'greenbutton/parser'
+require 'green_button/rule'
+require 'green_button/helpers'
+require 'green_button/models'
+require 'green_button/parser'
 
 module GreenButton
   # could also load this from the data custodian:feed
