@@ -14,12 +14,4 @@ module GreenButton
     xml_file.remove_namespaces!
     Parser.new(xml_file)
   end
-
-  def self.load_xml_from_web(url)
-    self.load(url)
-  end
-
-  def self.load_xml_from_file(path)
-    self.load(path)
-  end
 end
