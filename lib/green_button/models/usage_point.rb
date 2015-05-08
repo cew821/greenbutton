@@ -21,7 +21,7 @@ module GreenButton
       when 'meter_reading', 'electric_power_usage_summary', 'electric_power_quality_summary'
         self.send(pluralize(type)) << parser
       else
-        warn 'Not a recognized relation for UsagePoint: ' + type
+        warn "Not a recognized relation for UsagePoint: #{type}"
       end
     end
 
@@ -30,9 +30,9 @@ module GreenButton
     end
 
     def customer_id
-      if @customer_id.nil?
+      unless @customer_id
         match = /\/([^\/]+)\/UsagePoint/i.match(self.href)
-        @customer_id = match.nil? ? nil : match[1]
+        @customer_id = match ? match[1] : nil
       end
       @customer_id
     end
