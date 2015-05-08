@@ -13,9 +13,10 @@ end
 
 require 'greenbutton'
 
-Dir['spec/support/**/*.rb'].each { |f| require f }
+Dir['./spec/support/**/*.rb'].each { |f| require f }
 
 RSpec.configure do |config|
-  config.pattern = '**/*_spec.rb'
+  config.include GreenButtonHelper
   config.mock_framework = :rspec
+  config.pattern = '**/*_spec.rb'
 end
