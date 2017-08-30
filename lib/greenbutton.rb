@@ -18,7 +18,12 @@ module GreenButton
     xml_file.remove_namespaces!
     Parser.new(xml_file)
   end
-	  
+
+  def self.load_xml_from_string(string)
+    xml_file = Nokogiri::XML.parse(string)
+    xml_file.remove_namespaces!
+    Parser.new(xml_file)
+  end
 
 	class Parser
 		attr_accessor :doc, :usage_points
