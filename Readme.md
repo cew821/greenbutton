@@ -39,6 +39,9 @@ gb = GreenButton.load_xml_from_file('PATH/TO/FILE.XML')
 
 # To load from URL:
 gb = GreenButton.load_xml_from_web('https://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/RetailCustomer/3/UsagePoint')
+
+# To load from string:
+gb = GreenButton.load_xml_from_string(xml_string)
 ```
 
 This code will load the Green Button XML from the given file or URL and parse it into a series of Ruby objects representing the data contained in the file.
