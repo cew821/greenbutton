@@ -1,7 +1,6 @@
 module GreenButtonClasses
   require_relative 'helpers.rb'
   require 'nokogiri'
-  require 'pry'
   
   Rule = Helper::Rule
   RULES = {
